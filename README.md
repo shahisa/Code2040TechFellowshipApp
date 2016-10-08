@@ -20,6 +20,8 @@ Use the key token for your token.
 Use the key needle for the integer representing where the needle was in the array.
 
 Hint: You’ll probably use a loop to solve this one.
+
+
 Step IV: Prefix
 
 Great job -- but we’re not done with collections.
