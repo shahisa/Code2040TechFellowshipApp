@@ -1,18 +1,22 @@
-import requests as r
+import requests, json
 
-payload = {'token':'a507960e4f5b9aaced42072be76bdb5b'}
+token = "a507960e4f5b9aaced42072be76bdb5b"
+tokens = {"token": token}
+header = {'Content-Type': 'application/json'}
+prefixHTTP = 'http://challenge.code2040.org/api/prefix'
 
-def prefix():
+challenge_endpoint = "http://challenge.code2040.org/api/prefix/validate"
+response1 = requests.post(prefixHTTP, data=json.dumps(tokens),headers=header).json()
 
-   r = requests.post("http://challenge.code2040.org/api/prefix",
-                     data={'token': token})
 
-   words = r.json()
-   len_pref = len(words['prefix'])
+prefix = response1["prefix"]
+my_array = response1["array"]
+result_array = []
 
-   non_prefixed = [str(word) for word in words['array'] if word[0:len_pref] != words['prefix']]
+for item in my_array:
+	if not item.startswith(prefix):
+		result_array.append(str(item))
 
-   payload = {'token': token, 'array': non_prefixed}
-   r = requests.post("http://challenge.code2040.org/api/prefix/validate",
-                     json=payload)
-   print(r.status_code, r.reason) 
+prefixResult = {"token": token,"array":result_array}
+response1 = requests.post(challenge_endpoint, data=json.dumps(prefixResult),headers=header)
+print( response1.text)
